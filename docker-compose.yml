@@ -1,0 +1,29 @@
+# Define a versão do Docker Compose
+version: '3.8'
+
+# Define os serviços (containers) que queremos
+services:
+
+  # Serviço 1: A nossa Base de Dados
+  postgres-db:
+    image: postgres:16
+    container_name: bankingapp-compose
+    ports:
+      - "5432:5432" # Expõe a porta 5432 para o localhost
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bankingapp
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Cria um volume "gerido"
+
+  # Serviço 2: O nosso Cache
+  redis-cache:
+    image: redis:latest
+    container_name: redis-bankingapp-compose
+    ports:
+      - "6379:6379" # Expõe a porta 6379 para o localhost
+
+# Define os volumes "geridos" que o Docker vai controlar
+volumes:
+  postgres-data:
